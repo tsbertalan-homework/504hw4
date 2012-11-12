@@ -157,17 +157,25 @@ coeffs = [
           -k1**2*k3 - k1*k3*kn1 + 2*k2*k3*kn1 - k2*kn1**2,
           k2*kn1**2
          ]
+coeffs = [
+     k2*k3**2,
+     k1*k3**2 - 2*k2*k3**2 + 2*k2*k3*kn1,
+     k1**2*k3 - k1*k3**2 + k1*k3*kn1 + k2*k3**2 - 4*k2*k3*kn1 + k2*kn1**2,
+     -k3*k1**2 - k1*k3*kn1 +2*k2*k3*kn1 - 2*k2*kn1**2,
+     k2*kn1**2
+     ]
 
 yroots = np.roots(coeffs)
-print "The roots are y =", yroots
 fx = lambda y: k1*(1-y)/(k1+kn1+k3*y)
 xroots = map(fx, yroots)
-print "Similarly,    x =", xroots
 
 fig3 = plt.figure(3, figsize=(12, 8))
 ax3 = fig3.add_subplot(1,1,1)
 ICs_ss = zip(xroots, yroots)
-ICs_ss.append((0, 1))
+print '#### Problem 3, steady-states ####'
+print "Steady-states (x, y) are:"
+for (x, y) in ICs_ss:
+    print '(%.3f, %.3f)' % (x, y)
 
 for (x0,y0) in ICs_ss:
     x0 = x0 + np.random.rand()*.25
@@ -191,6 +199,8 @@ for (x0,y0) in ICs:
     ax3b.plot(xlist, ylist, 'k')
     ax3b.set_xlim((0,1))
     ax3b.set_ylim((0,1))
+#for (x0, y0) in ICs_ss:
+#    ax3b.scatter([x0], [y0], color='k')
 ax3b.set_xlim((0, 1))
 ax3b.set_ylim((0, 1))
 ax3b.set_title('Phase plot for many ICs.')
@@ -203,6 +213,7 @@ f1x = lambda x,y: -k1 -kn1 - k3*y
 f2x = lambda x,y: -2*k2+2*k2*x+2*k2*y-k3*y
 f1y = lambda x,y: -k1-k3*x
 f2y = lambda x,y: -2*k2+2*k2*x+2*k2*y-k3*x
+print ''
 print '#### Problem 3, Linear stability analysis ####'
 for (x,y) in ICs_ss:
     jacobian = np.array([[f1x(x,y), f1y(x,y)],
