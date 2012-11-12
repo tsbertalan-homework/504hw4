@@ -1,5 +1,3 @@
-#from matplotlib.pyplot import figure, plot, xlabel, ylabel,\
-#title, xlim, ylim, legend, savefig, show, xscale, yscale
 import numpy as np
 import matplotlib.pyplot as plt
 from math import sqrt
