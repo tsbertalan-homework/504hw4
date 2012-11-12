@@ -1,0 +1,43 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 11.08.0 ] */
+
+/* [wxMaxima: input   start ] */
+f(b) := -exp((y0+x0)*b)*(y0-x0)/(exp((y0+x0)*b)-1)-x0;
+solve(f(b), b);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+b(x0, y0) := log(x0/y0)/(x0+y0);
+a(x0, y0) := y0+x0;
+x(t) := -exp(a(x0,y0)*b(x0,y0))*a(x0,y0)/(exp(a(x0,y0)*b(x0,y0)) - exp(a(x0,y0)*k3*t));
+y(t) := a(x0,y0) - x(t);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+g(t) := k3 * y(t) * x(t);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+factor(%);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+t(x0, y0, k3) := log(3*x0/y0)/(k3*(x0+y0));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ratsimp(x(t(x0,y0,k3)));
+ratsimp(y(t(x0,y0,k3)));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+dx(x,y) := k1*(1-x-y) - kn1*x   - k3*x*y;
+dy(x,y) := k2*(1-x-y) - kn2*y^2 - k3*x*y;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+solve([dx(x,y), dy(x,y)],[x,y]);
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$
