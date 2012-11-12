@@ -1,3 +1,6 @@
+##############################################################################
+################ Code online at github.com/tsbertalan/504hw4 #################
+##############################################################################
 import numpy as np
 import matplotlib.pyplot as plt
 from math import sqrt
