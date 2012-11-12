@@ -6,7 +6,7 @@ def do_IC(k1, kn1, k2, kn2, k3, x0, y0, dt=0.01, numsteps=256):
     def xprime(x, y):
         return k1 * (1 - x - y) - kn1 * x - k3 * x * y
     def yprime(x, y):
-        return k2 * (1 - x - y) - kn2 * y ** 2 - k3 * x * y
+        return k2 * (1 - x - y)**2 - kn2 * y ** 2 - k3 * x * y
     def pprime(x, y):
         return k3 * x * y
 
@@ -151,12 +151,7 @@ k3=10
 # roots of the cubic polynomial in y that results from setting
 #    dx/dt = 0 = dy/dt
 # coefficients of said polynomial:
-coeffs = [
-          -k2*k3**2,
-          -2*k2*kn1*k3 + k2*k3**2 - k1*k3**2,
-          -k1**2*k3 - k1*k3*kn1 + 2*k2*k3*kn1 - k2*kn1**2,
-          k2*kn1**2
-         ]
+
 coeffs = [
      k2*k3**2,
      k1*k3**2 - 2*k2*k3**2 + 2*k2*k3*kn1,
@@ -171,36 +166,37 @@ xroots = map(fx, yroots)
 
 fig3 = plt.figure(3, figsize=(12, 8))
 ax3 = fig3.add_subplot(1,1,1)
+ax3.set_xlim((0, 1))
+ax3.set_ylim((0, 1.2))
 ICs_ss = zip(xroots, yroots)
 print '#### Problem 3, steady-states ####'
 print "Steady-states (x, y) are:"
 for (x, y) in ICs_ss:
     print '(%.3f, %.3f)' % (x, y)
-
-for (x0,y0) in ICs_ss:
-    x0 = x0 + np.random.rand()*.25
-    y0 = y0 + np.random.rand()*.25
+repeats = 12
+for (x0,y0) in ICs_ss * repeats:
+    x0 = x0 + np.random.rand()*1/8. - 1/16.
+    y0 = y0 + np.random.rand()*1/8. - 1/16.
     (tlist, xlist, ylist, plist) = do_IC(k1, kn1, k2, kn2, k3, x0, y0)
     ax3.plot(xlist, ylist, 'k')
-    ax3.scatter([x0],[y0], color='k')
+for (x0,y0) in ICs_ss:
+    ax3.scatter([x0], [y0], color='k')
 ax3.set_title('Small random perturbations from steady-states')
 ax3.set_xlabel(r'x, adsorbed $CO_1$')
 ax3.set_ylabel(r'y, adsorbed $O_1$')
-ax3.set_xbound(lower=-.08)
-ax3.set_ybound(lower=0)
 plt.savefig('hw4_3.pdf')
 
 fig3b = plt.figure(32, figsize=(12, 8))
 ax3b = fig3b.add_subplot(1,1,1)
-ICs = make_ICs()
+ICs = make_ICs(resolution=128)
 
 for (x0,y0) in ICs:
     (tlist, xlist, ylist, plist) = do_IC(k1, kn1, k2, kn2, k3, x0, y0)
     ax3b.plot(xlist, ylist, 'k')
     ax3b.set_xlim((0,1))
     ax3b.set_ylim((0,1))
-#for (x0, y0) in ICs_ss:
-#    ax3b.scatter([x0], [y0], color='k')
+for (x0,y0) in ICs_ss:
+    ax3b.scatter([x0], [y0], color='k')
 ax3b.set_xlim((0, 1))
 ax3b.set_ylim((0, 1))
 ax3b.set_title('Phase plot for many ICs.')
