@@ -1,0 +1,15 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 11.08.0 ] */
+
+/* [wxMaxima: input   start ] */
+k1 = 0.5;
+kn1 = 0.05;
+k2 = 1;
+k3 = 10;
+dx(x,y,k1,kn1,k2,k3) := k1*(1-x-y) - k3*x*y;
+dy(x,y,k1,kn1,k2,k3) := k2*(1-x-y)^2 = k3*x*y;
+solve([dx(x,y,k1,kn1,k2,k3), dy(x,y,k1,kn1,k2,k3)], [x,y]);
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$
